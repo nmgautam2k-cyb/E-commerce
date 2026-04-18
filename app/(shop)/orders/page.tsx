@@ -41,9 +41,11 @@ export default function OrdersPage() {
     const fetchData = async () => {
       try {
         const [ordersRes, productsRes] = await Promise.all([
-          fetch("http://localhost:3001/orders"),
-          fetch("http://localhost:3001/products")
+          fetch("http://localhost:5000/orders"),
+          fetch("http://localhost:5000/products")
         ]);
+
+        if (!ordersRes.ok || !productsRes.ok) throw new Error("Server error");
 
         const allOrders = await ordersRes.json();
         const productsData = await productsRes.json();
@@ -57,6 +59,8 @@ export default function OrdersPage() {
         setProducts(productsData);
       } catch (error) {
         console.error("Failed to fetch orders:", error);
+        setOrders([]);
+        setProducts([]);
       } finally {
         setLoading(false);
       }
@@ -89,7 +93,10 @@ export default function OrdersPage() {
       <h2 className="title">My Orders</h2>
 
       {orders.length === 0 ? (
-        <p>No orders found. Start shopping to place your first order!</p>
+        <div style={{ textAlign: "center", padding: "40px", background: "rgba(255,255,255,0.5)", borderRadius: "12px" }}>
+          <p style={{ fontSize: "18px", marginBottom: "10px" }}>⚠️ No Orders Found</p>
+          <p style={{ color: "#666" }}>If orders exist, start JSON Server: <code style={{ background: "#eee", padding: "4px 8px", borderRadius: "4px" }}>npm run json-server</code></p>
+        </div>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           {orders.map((order) => (

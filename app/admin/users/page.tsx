@@ -24,7 +24,7 @@ export default function UsersPage() {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch("http://localhost:3001/users");
+      const res = await fetch("http://localhost:5000/users");
       setUsers(await res.json());
     } catch (error) {
       console.error("Failed to fetch users:", error);
@@ -59,7 +59,7 @@ export default function UsersPage() {
       };
 
       if (editingId) {
-        await fetch(`http://localhost:3001/users/${editingId}`, {
+        await fetch(`http://localhost:5000/users/${editingId}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -67,7 +67,7 @@ export default function UsersPage() {
           body: JSON.stringify(userData),
         });
       } else {
-        await fetch("http://localhost:3001/users", {
+        await fetch("http://localhost:5000/users", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -99,7 +99,7 @@ export default function UsersPage() {
   const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this user?")) {
       try {
-        await fetch(`http://localhost:3001/users/${id}`, {
+        await fetch(`http://localhost:5000/users/${id}`, {
           method: "DELETE",
         });
         fetchUsers();

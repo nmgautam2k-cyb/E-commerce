@@ -55,7 +55,7 @@ export default function PaymentPage() {
     
     try {
       // Save order to database (db.json)
-      await fetch("http://localhost:3001/orders", {
+      await fetch("http://localhost:5000/orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

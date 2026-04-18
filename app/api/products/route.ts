@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
-    const response = await fetch("http://localhost:3001/products");
+    const response = await fetch("http://localhost:5000/products");
     const products = await response.json();
     return NextResponse.json(products);
   } catch (error) {
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const productData = await request.json();
-    const response = await fetch("http://localhost:3001/products", {
+    const response = await fetch("http://localhost:5000/products", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

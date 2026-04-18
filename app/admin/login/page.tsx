@@ -27,7 +27,7 @@ export default function AdminLogin() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:3001/users");
+      const res = await fetch("http://localhost:5000/users");
       const users = await res.json();
       
       const user = users.find(

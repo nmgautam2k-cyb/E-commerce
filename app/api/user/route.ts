@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const BASE_URL = "http://localhost:3001/users";
+const BASE_URL = "http://localhost:5000/users";
 
 // ✅ GET USERS
 export async function GET() {

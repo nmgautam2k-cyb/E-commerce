@@ -39,9 +39,9 @@ export default function OrdersPage() {
     const fetchData = async () => {
       try {
         const [ordersRes, productsRes, usersRes] = await Promise.all([
-          fetch("http://localhost:3001/orders"),
-          fetch("http://localhost:3001/products"),
-          fetch("http://localhost:3001/users")
+          fetch("http://localhost:5000/orders"),
+          fetch("http://localhost:5000/products"),
+          fetch("http://localhost:5000/users")
         ]);
 
         const ordersData = await ordersRes.json();
@@ -63,7 +63,7 @@ export default function OrdersPage() {
 
   const updateOrderStatus = async (orderId: string, newStatus: string) => {
     try {
-      await fetch(`http://localhost:3001/orders/${orderId}`, {
+      await fetch(`http://localhost:5000/orders/${orderId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -82,7 +82,7 @@ export default function OrdersPage() {
   const deleteOrder = async (orderId: string) => {
     if (confirm("Are you sure you want to delete this order?")) {
       try {
-        await fetch(`http://localhost:3001/orders/${orderId}`, {
+        await fetch(`http://localhost:5000/orders/${orderId}`, {
           method: "DELETE",
         });
         setOrders(orders.filter(order => order.id !== orderId));

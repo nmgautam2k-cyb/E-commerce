@@ -20,13 +20,15 @@ export default function TshirtPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:3001/products");
+        const res = await fetch("http://localhost:5000/products");
+        if (!res.ok) throw new Error("Server error");
         const allProducts = await res.json();
         // Filter only t-shirts added by admin
         const tshirts = allProducts.filter((p: Product) => p.category === "tshirts");
         setProducts(tshirts);
       } catch (error) {
         console.error("Failed to fetch t-shirts:", error);
+        setProducts([]);
       } finally {
         setLoading(false);
       }
@@ -83,7 +85,10 @@ export default function TshirtPage() {
       {loading ? (
         <p style={{ textAlign: "center" }}>Loading...</p>
       ) : products.length === 0 ? (
-        <p style={{ textAlign: "center" }}>No t-shirts available. Admin will add products soon.</p>
+        <div style={{ textAlign: "center", padding: "40px", background: "rgba(255,255,255,0.5)", borderRadius: "12px" }}>
+          <p style={{ fontSize: "18px", marginBottom: "10px" }}>⚠️ Server Connection Error</p>
+          <p style={{ color: "#666" }}>Please start JSON Server: <code style={{ background: "#eee", padding: "4px 8px", borderRadius: "4px" }}>npm run json-server</code></p>
+        </div>
       ) : (
         <div className="product-grid">
           {products.filter(p => p.title.toLowerCase().includes(searchQuery.toLowerCase())).map(p => (

@@ -25,7 +25,7 @@ export default function ProductsPage() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch("http://localhost:3001/products");
+      const res = await fetch("http://localhost:5000/products");
       setProducts(await res.json());
     } catch (error) {
       console.error("Failed to fetch products:", error);
@@ -76,7 +76,7 @@ export default function ProductsPage() {
       };
 
       if (editingId) {
-        await fetch(`http://localhost:3001/products/${editingId}`, {
+        await fetch(`http://localhost:5000/products/${editingId}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -84,7 +84,7 @@ export default function ProductsPage() {
           body: JSON.stringify(productData),
         });
       } else {
-        await fetch("http://localhost:3001/products", {
+        await fetch("http://localhost:5000/products", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -119,7 +119,7 @@ export default function ProductsPage() {
   const handleDelete = async (id: string) => {
     if (confirm("Are you sure you want to delete this product?")) {
       try {
-        await fetch(`http://localhost:3001/products/${id}`, {
+        await fetch(`http://localhost:5000/products/${id}`, {
           method: "DELETE",
         });
         fetchProducts();

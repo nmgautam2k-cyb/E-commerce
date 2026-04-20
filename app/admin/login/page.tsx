@@ -1,15 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { getUser } from "../../../lib/auth";
 
-export default function AdminLogin() {
+function AdminLoginInner() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -29,9 +30,12 @@ export default function AdminLogin() {
     try {
       const res = await fetch("http://localhost:5000/users");
       const users = await res.json();
-      
+
       const user = users.find(
-        (u: any) => u.email === email && u.password === password && u.role === "admin"
+        (u: any) =>
+          u.email === email &&
+          u.password === password &&
+          u.role === "admin"
       );
 
       if (user) {
@@ -57,7 +61,6 @@ export default function AdminLogin() {
         <h2 className="auth-title">Admin Login</h2>
 
         <form onSubmit={handleLogin} className="auth-form">
-
           <div className="input-group">
             <input
               type="email"
@@ -81,12 +84,14 @@ export default function AdminLogin() {
           </div>
 
           {error && (
-            <div style={{ 
-              color: "red", 
-              marginBottom: "15px",
-              fontSize: "14px",
-              textAlign: "center"
-            }}>
+            <div
+              style={{
+                color: "red",
+                marginBottom: "15px",
+                fontSize: "14px",
+                textAlign: "center",
+              }}
+            >
               {error}
             </div>
           )}
@@ -101,5 +106,13 @@ export default function AdminLogin() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <AdminLoginInner />
+    </Suspense>
   );
 }

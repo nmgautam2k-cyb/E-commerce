@@ -39,7 +39,7 @@ export default function Register() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          id: Date.now(), // ✅ important
+          id: Date.now().toString(),
           name,
           email,
           password,
@@ -47,9 +47,12 @@ export default function Register() {
         }),
       });
 
-      if (!save.ok) throw new Error("Failed");
+      if (!save.ok) {
+        const errorData = await save.json().catch(() => ({ error: "Unknown error" }));
+        throw new Error(errorData.error || "Failed to register");
+      }
 
-      alert("Registered Successfully");
+      alert("Registered Successfully! Please login.");
       router.push("/login");
 
     } catch (error) {

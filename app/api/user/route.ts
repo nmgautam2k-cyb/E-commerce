@@ -1,12 +1,22 @@
 import { NextResponse } from "next/server";
 
-const BASE_URL = "http://localhost:5000/users";
+export const dynamic = 'force-dynamic';
+
+const BASE_URL = process.env.JSON_SERVER_URL || "http://localhost:5000/users";
 
 // ✅ GET USERS
 export async function GET() {
-  const res = await fetch(BASE_URL);
-  const data = await res.json();
-  return NextResponse.json(data);
+  try {
+    const res = await fetch(BASE_URL);
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    const data = await res.json();
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    return NextResponse.json({ error: 'Failed to fetch users' }, { status: 500 });
+  }
 }
 
 // ✅ ADD USER
